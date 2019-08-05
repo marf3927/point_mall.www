@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import DataHelper from '../DataHelper';
 
 class Header extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class Header extends React.Component {
     }
 
     getCategory = () => {
-        axios.get('http://localhost:8003/categories/')
+        axios.get(DataHelper.baseUrl() + '/categories/')
         .then((response) => {
             const categories = response.data;
             this.setState({
@@ -31,7 +32,7 @@ class Header extends React.Component {
                 <Link key = {category.id} to = {'/categories/' + category.id}>{category.title}</Link>
             );
         });
-        const auth = localStorage.getItem('authorization');
+        const auth = DataHelper.getAuthToken();
         if (auth != null) {
             return(
             <header>

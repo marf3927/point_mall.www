@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import ItemBox from './itemBox';
+import DataHelper from '../DataHelper';
 
 
 class Home extends React.Component {
@@ -16,7 +17,7 @@ class Home extends React.Component {
     }
 
     indexItems (){
-        axios.get('http://localhost:8003/items/')
+        axios.get(DataHelper.baseUrl() + '/items/')
         .then((response) => {
             const items = response.data;
             this.setState({

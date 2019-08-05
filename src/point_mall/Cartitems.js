@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import ItemBox from './itemBox';
+import DataHelper from '../DataHelper';
 
 
 class CartItems extends React.Component {
@@ -18,36 +19,27 @@ class CartItems extends React.Component {
     }
 
     purchase = () => {
-        const itemsQueue = [];
+        const items = [];
         for (let cartItem of this.state.cartItems) {
-            for(let i = 0; i<cartItem.count; i++){
-                itemsQueue.push(cartItem.item.id);
-            }    
+            items.push({
+                item_id : cartItem.item.id,
+                count : cartItem.count
+            }) 
         }
-        this.purchaseNextItem(itemsQueue);
-    }
-
-    purchaseNextItem(itemsQueue) {
-        console.log(itemsQueue);
-        if (itemsQueue.length < 1) {
-            localStorage.setItem('cart_items', '[]');
-            this.props.history.push('/me/items');  
-        } else {
-            const itemid = itemsQueue.shift();
-            axios.post(
-                'http://localhost:8003/items/' + itemid + '/purchase/',
-                {},
-                {
-                    headers: {
-                        'Authorization': localStorage.getItem('authorization')
-                    }
+        axios.post(
+            DataHelper.baseUrl() +'/items/purchase/',
+            {
+                items
+            },
+            {
+                headers: {
+                    'Authorization': DataHelper.getAuthToken()
                 }
+            }
         ).then((response) => {
-            this.purchaseNextItem(itemsQueue);
+            localStorage.removeItem('cart_items');
+            this.props.history.push('/me/items');
         });
-        }
-        
-        
     }
 
     indexItems = () => {

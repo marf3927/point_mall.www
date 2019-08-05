@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import ItemBox from './itemBox';
+import DataHelper from '../DataHelper';
 
 class CategoyDetail extends React.Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class CategoyDetail extends React.Component {
 
     getItem() {
         const categoryId = this.props.match.params.categoryId;
-        axios.get('http://localhost:8003/categories/' + categoryId + '/items/')
+        axios.get(DataHelper.baseUrl() +'/categories/' + categoryId + '/items/')
         .then((response) => {
             const item = response.data;
             this.setState({
