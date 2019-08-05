@@ -31,7 +31,7 @@ class Login extends React.Component {
         axios.post('http://localhost:8003/o/token/',
         {
             grant_type : "password",
-            client_id : "QPaIFnoPnRTox4n4t1uZfaD6SkNCh7P3a3LUfXM7",
+            client_id : "Xf5Bn3Zrx1VdVGwhlbdi8G1NCb8Dloa6WyAcmPuK",
             username: this.state.username,
             password : this.state.password
         }
