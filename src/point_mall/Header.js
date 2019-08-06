@@ -3,7 +3,9 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import { observer} from 'mobx-react'
 import DataHelper from '../DataHelper';
+import { inject } from 'mobx-react';
 
+@inject('authStore')
 @observer
 class Header extends React.Component {
     helper = new DataHelper();
@@ -30,7 +32,8 @@ class Header extends React.Component {
     }
 
     logout = () => {
-        this.helper.deleteToken();
+        const {authStore} = this.props;
+        authStore.deleteToken();
     }
 
     render() {
@@ -39,8 +42,8 @@ class Header extends React.Component {
                 <Link key = {category.id} to = {'/categories/' + category.id}>{category.title}</Link>
             );
         });
-        const auth = DataHelper.getAuthToken();
-        if (this.helper.isLoggedIn) {
+        const {authStore} = this.props
+        if (authStore.isLoggedIn) {
             return(
             <header>
                 <Link to="/">PointMall</Link>
@@ -63,6 +66,9 @@ class Header extends React.Component {
                         {categories}
                         <div className="header-right">
                             <Link to="/login">Login</Link>
+                        </div>
+                        <div className="header-right">
+                            <Link to='/cart/items'>My Cart</Link>
                         </div>
                     </header>
                 );

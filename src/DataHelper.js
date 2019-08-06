@@ -20,12 +20,6 @@ class DataHelper {
         return localStorage.setItem('auth_token', this.authToken);
     }
 
-    getAuthToken() {
-        if (this.authToken == null){
-            this.authToken = localStorage.getItem('auth_token');
-        }
-        return this.authToken;
-    }
 
     deleteToken() {
         localStorage.removeItem('cart_items');
@@ -50,7 +44,7 @@ class DataHelper {
 
     static getAuthToken() {
         const dataHelper = new DataHelper();
-        return dataHelper.getAuthToken();
+
     }
 
 }

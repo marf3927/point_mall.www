@@ -3,7 +3,9 @@ import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import ItemBox from './itemBox';
 import DataHelper from '../DataHelper';
+import { inject } from 'mobx-react';
 
+@inject('authStore')
 class MyItems extends React.Component {
 
     constructor(props) {
@@ -20,11 +22,12 @@ class MyItems extends React.Component {
     }
 
     getUser = () =>{
+        const {authStore} = this.props
         axios.get(
             DataHelper.baseUrl() +'/me/',
             {
                 headers: {
-                    'Authorization' : DataHelper.getAuthToken()
+                    'Authorization' : authStore.authToken
                 }
             }
         ).then((response) => {
@@ -36,11 +39,12 @@ class MyItems extends React.Component {
     }
 
     indexItems = () => {
+        const {authStore} = this.props
         axios.get(
             DataHelper.baseUrl() + '/me/items/',
             {
                 headers : {
-                    'Authorization' : DataHelper.getAuthToken()
+                    'Authorization' : authStore.authToken
                 }
             }
             ).then((response) => {
