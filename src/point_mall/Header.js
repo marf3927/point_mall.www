@@ -1,19 +1,22 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import { observer} from 'mobx-react'
 import DataHelper from '../DataHelper';
 
+@observer
 class Header extends React.Component {
+    helper = new DataHelper();
     constructor(props) {
         super(props);
         this.state = {
-            user : 'null',
             categories : []
-        }
+        };
     }
+    
 
     componentDidMount(){
-           this.getCategory() 
+        this.getCategory() 
     }
 
     getCategory = () => {
@@ -22,8 +25,12 @@ class Header extends React.Component {
             const categories = response.data;
             this.setState({
                 categories : categories
-            });
+            }); 
         })
+    }
+
+    logout = () => {
+        this.helper.deleteToken();
     }
 
     render() {
@@ -33,13 +40,13 @@ class Header extends React.Component {
             );
         });
         const auth = DataHelper.getAuthToken();
-        if (auth != null) {
+        if (this.helper.isLoggedIn) {
             return(
             <header>
                 <Link to="/">PointMall</Link>
                 {categories}
                 <div className="header-right">
-                    <Link to="/login">Login</Link>
+                    <Link to='/' onClick = {this.logout}>Logout</Link>
                 </div>
                 <div className="header-right">
                     <Link to='/me/:items'>My Items</Link>

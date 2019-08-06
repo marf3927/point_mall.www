@@ -9,8 +9,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state= {
-            username : '',
-            password : ''
+            username : 'admin',
+            password : 'admin'
         }
         this.onInputChanged = this.onInputChanged.bind(this);
     }
@@ -32,7 +32,7 @@ class Login extends React.Component {
         axios.post(DataHelper.baseUrl() + '/o/token/',
         {
             grant_type : "password",
-            client_id : "Xf5Bn3Zrx1VdVGwhlbdi8G1NCb8Dloa6WyAcmPuK",
+            client_id : "q3lcLkv9AKycjIR7EQ8DMwAWdDaFDipiT78CiFvx",
             username: this.state.username,
             password : this.state.password
         }
