@@ -58,8 +58,8 @@ class ItemBox extends React.Component {
                 onMouseOver = {this.hover}
                 onMouseOut = {this.unhover}>
                 <img src={image} alt="" />
-                <p className="item-title">${item.title}</p>
-                <p className="item-price">가격 : ${item.price}</p>
+                <p className="item-title">{item.title}</p>
+                <p className="item-price">가격 : {item.price}원</p>
             </div>
         );
     }
