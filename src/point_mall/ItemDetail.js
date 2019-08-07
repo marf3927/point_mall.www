@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import DataHelper from '../DataHelper';
 import { inject } from 'mobx-react';
 
-@inject('authStore')
+@inject('authStore', 'ItemStore')
 class ItemDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -45,29 +45,10 @@ class ItemDetail extends React.Component {
         });
     }
 
-    addToCart = () =>{
+    addToCart = () => {
+        const {ItemStore} = this.props;
         const item = this.state.item;
-        let cartItems = localStorage.getItem('cart_items');
-        if (cartItems == null || cartItems.lenght < 1){
-            cartItems = [];
-        } else {
-            cartItems = JSON.parse(cartItems)
-        }
-        let isAdded = false;
-        for (let cartItem of cartItems) {
-            if (cartItem.item.id === item.id) {
-                cartItem.count++;
-                isAdded = true;
-                break;
-            }
-        }
-        if (!isAdded) {
-            cartItems.push({
-                item : item,
-                count : 1
-            });
-        }
-        localStorage.setItem('cart_items', JSON.stringify(cartItems));
+        ItemStore.addItemToCart(item);
     }
 
     render() {
