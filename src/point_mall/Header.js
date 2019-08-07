@@ -5,7 +5,7 @@ import { observer} from 'mobx-react'
 import DataHelper from '../DataHelper';
 import { inject } from 'mobx-react';
 
-@inject('authStore')
+@inject('authStore', 'itemStore')
 @observer
 class Header extends React.Component {
     helper = new DataHelper();
@@ -42,7 +42,7 @@ class Header extends React.Component {
                 <Link key = {category.id} to = {'/categories/' + category.id}>{category.title}</Link>
             );
         });
-        const {authStore} = this.props
+        const {authStore, itemStore} = this.props
         if (authStore.isLoggedIn) {
             return(
             <header>
@@ -52,10 +52,10 @@ class Header extends React.Component {
                     <Link to='/' onClick = {this.logout}>Logout</Link>
                 </div>
                 <div className="header-right">
-                    <Link to='/me/:items'>My Items</Link>
+                    <Link to='/cart/items'>My Cart {itemStore.cartItemsCount}</Link>
                 </div>
                 <div className="header-right">
-                    <Link to='/cart/items'>My Cart</Link>
+                    <Link to='/me/:items'>My Items</Link>
                 </div>
             </header>
             );
@@ -68,7 +68,7 @@ class Header extends React.Component {
                             <Link to="/login">Login</Link>
                         </div>
                         <div className="header-right">
-                            <Link to='/cart/items'>My Cart</Link>
+                            <Link to='/cart/items'>My Cart {itemStore.cartItemsCount}</Link>
                         </div>
                     </header>
                 );

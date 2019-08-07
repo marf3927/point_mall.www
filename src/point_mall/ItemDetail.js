@@ -17,7 +17,6 @@ class ItemDetail extends React.Component {
         this.getItem();
     }
         
-
     getItem() {
         const itemId = this.props.match.params.itemId;
         axios.get(DataHelper.baseUrl() + '/items/' + itemId)
