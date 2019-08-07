@@ -1,7 +1,7 @@
 import { observable, action, computed } from 'mobx'
 
 export default class ItemStore {
-    @observable CartItems = [];
+    @observable cartItems = [];
     
     constructor() {
         let cartItems = localStorage.getItem('cart_items');
@@ -35,6 +35,12 @@ export default class ItemStore {
     @computed
     get cartItemsCount() {
         return this.cartItems.length;
+    }
+
+    @action
+    clearCart() {
+        this.cartItems = [];
+        this.saveCartItems();
     }
 
     saveCartItems() {

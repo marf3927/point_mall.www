@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import DataHelper from '../DataHelper';
 import { inject } from 'mobx-react';
 
-@inject('authStore', 'ItemStore')
+@inject('authStore', 'itemStore')
 class ItemDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -46,9 +46,9 @@ class ItemDetail extends React.Component {
     }
 
     addToCart = () => {
-        const {ItemStore} = this.props;
+        const {itemStore} = this.props;
         const item = this.state.item;
-        ItemStore.addItemToCart(item);
+        itemStore.addItemToCart(item);
     }
 
     render() {

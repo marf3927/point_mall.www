@@ -8,10 +8,10 @@ import AuthStore from './AuthStore';
 import ItemStore from './ItemStore';
 
 const authStore = new AuthStore();
-const ItemStore = new ItemStore();
+const itemStore = new ItemStore();
 
 ReactDOM.render(
-<Provider authStore = {authStore} ItemStore = {ItemStore}>
+<Provider authStore = {authStore} itemStore = {itemStore}>
     <App />
 </Provider>,
  document.getElementById('root'));
