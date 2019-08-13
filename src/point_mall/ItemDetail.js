@@ -1,10 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import {withRouter} from 'react-router-dom';
-import DataHelper from '../DataHelper';
 import { inject } from 'mobx-react';
 
-@inject('authStore', 'itemStore')
+@inject('authStore', 'itemStore', 'httpService')
 class ItemDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -14,32 +12,24 @@ class ItemDetail extends React.Component {
     }
 
     componentDidMount() {
-        this.getItem();
+        this.indexItems();
     }
         
-    getItem() {
+    indexItems() {
         const itemId = this.props.match.params.itemId;
-        axios.get(DataHelper.baseUrl() + '/items/' + itemId)
-        .then((response) => {
-            const item = response.data;
+        const extraUrl = '/items/' + itemId
+        this.props.httpService.indexItems(extraUrl)
+        .then(item => {
             this.setState({
                 item : item
             });
         });
     }
 
-    purchase = () => {
+    purchaseItem = () => {
         const itemId = this.state.item.id
-        const {authStore} = this.props
-        axios.post(
-            DataHelper.baseUrl() + '/items/' + itemId + '/purchase/',
-            {},
-            {
-                headers: {
-                    'Authorization': authStore.authToken
-                }
-            }
-        ).then((response) => {
+        this.props.httpService.purchaseItem(itemId)
+        .then((response) => {
             this.props.history.push('/me/items')
         });
     }
@@ -65,7 +55,7 @@ class ItemDetail extends React.Component {
                         <b>{title}</b>
                     </p>
                     <p>{decs}</p>
-                    <button onClick={this.purchase}>구입</button>
+                    <button onClick={this.purchaseItem}>구입</button>
                     <button onClick={this.addToCart}>장바구니 담기</button>
                 </div>
             </div>

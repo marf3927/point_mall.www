@@ -1,10 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import { inject } from 'mobx-react';
-import DataHelper from '../DataHelper';
 
-@inject('authStore')
+
+@inject('authStore', 'httpService')
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -30,18 +29,12 @@ class Login extends React.Component {
     }
 
     login = () => {
-        axios.post(DataHelper.baseUrl() + '/o/token/',
-        {
-            grant_type : "password",
-            client_id : "q3lcLkv9AKycjIR7EQ8DMwAWdDaFDipiT78CiFvx",
-            username: this.state.username,
-            password : this.state.password
-        }
-        ).then ((response) => {
-            const token  = response.data;
-            const {authStore, history} = this.props;
-            authStore.setToken(token);
-            DataHelper.setAuthToken(token);
+        this.props.httpService.login(
+            this.state.username, 
+            this.state.password
+        ).then(token=> {
+            const {history} = this.props;
+            history.push('/')
         });
         this.props.history.push('/');
         localStorage.removeItem('cart_items');

@@ -1,11 +1,8 @@
 import React from 'react';
-import axios from 'axios';
-import {withRouter} from 'react-router-dom';
 import ItemBox from './itemBox';
-import DataHelper from '../DataHelper';
 import { inject } from 'mobx-react';
 
-@inject('authStore')
+@inject('httpService')
 class MyItems extends React.Component {
 
     constructor(props) {
@@ -17,38 +14,24 @@ class MyItems extends React.Component {
     }
 
     componentDidMount(){
-        this.getUser();
-        this.indexItems();
+        this.getMe();
+        this.indexMyItems();
     }
 
-    getUser = () =>{
-        const {authStore} = this.props
-        axios.get(
-            DataHelper.baseUrl() +'/me/',
-            {
-                headers: {
-                    'Authorization' : authStore.authToken
-                }
-            }
-        ).then((response) => {
-            const user = response.data;
+    getMe = () =>{
+        const {httpService} = this.props;
+        httpService.getMe()
+        .then(user => {
             this.setState({
                 user : user
             });
         });
     }
 
-    indexItems = () => {
-        const {authStore} = this.props
-        axios.get(
-            DataHelper.baseUrl() + '/me/items/',
-            {
-                headers : {
-                    'Authorization' : authStore.authToken
-                }
-            }
-            ).then((response) => {
-                const userItems = response.data;
+    indexMyItems = () => {
+        const {httpService} = this.props;
+        httpService.indexMyItems()
+            .then(userItems => {
                 this.setState({
                     userItems : userItems
                 });
@@ -56,6 +39,7 @@ class MyItems extends React.Component {
     }
 
     render() {
+        console.log(this.state.userItems)
         const user = this.state.user;
         const point = user ? user.point : 0;
         const items = this.state.userItems.map((userItem) => {
