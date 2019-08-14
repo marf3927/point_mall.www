@@ -28,7 +28,7 @@ export default class AuthStore {
     }
 
     get refresh_token() {
-        return this.localStorage.getItem('refresh_token')
+        return localStorage.getItem('refresh_token')
     }
 
 }

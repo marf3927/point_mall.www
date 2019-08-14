@@ -18,13 +18,13 @@ class HttpService {
         }, originalError => {
             const { config, response } = originalError;
             const originalRequest = config;
-            if (originError.response.status === 401){
+            if (originalError.response.status === 401){
                 if (this.authStore.refresh_token == null) {
                     alert('로그인이 필요한 서비스입니다.');
                     this.rootStore.history.push('/login');
                 } else {
                     return new Promise((resolve, reject) => {
-                        this.refreshToken.then(token => {
+                        this.refreshToken().then(token => {
                             originalRequest.headers.Authorization = this.authStore.authToken
                             resolve(axios(originalRequest));
                         }).catch(error => {
