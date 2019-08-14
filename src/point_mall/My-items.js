@@ -39,7 +39,6 @@ class MyItems extends React.Component {
     }
 
     render() {
-        console.log(this.state.userItems)
         const user = this.state.user;
         const point = user ? user.point : 0;
         const items = this.state.userItems.map((userItem) => {
