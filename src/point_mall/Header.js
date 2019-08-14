@@ -61,6 +61,9 @@ class Header extends React.Component {
                         <Link to="/">PointMall</Link>
                         {categories}
                         <div className="header-right">
+                            <Link to="/register">Register</Link>
+                        </div>
+                        <div className="header-right">
                             <Link to="/login">Login</Link>
                         </div>
                         <div className="header-right">

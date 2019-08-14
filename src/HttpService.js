@@ -10,6 +10,16 @@ class HttpService {
         reaction(()=>this.authStore.authToken, () =>{
             axios.defaults.headers.common['Authorization'] = this.authStore.authToken
         });
+
+        axios.interceptors.response.use(response => {
+            return response;
+        }, error => {
+            if (error.response.status === 401){
+                alert('로그인이 필요한 서비스입니다.');
+                this.rootStore.history.push('/login');
+            }
+            return Promise.reject(error);
+        })
     }
 
     indexItems (extraUrl) {
@@ -37,6 +47,11 @@ class HttpService {
         return axios.post('/items/purchase/', {items}
         ).then((response) => {
             return response.data
+        })
+        .catch(error => {
+            if (error.response.status === 401) {
+                alert('로그인이 필요한 서비스입니다.')
+            }
         });
     }
 
@@ -48,7 +63,7 @@ class HttpService {
     }
 
     purchaseItem(itemId) {
-       return axios.post('/items/' + itemId + '/purchase/',{})
+       return axios.post('/items/' + itemId + '/purchase/',{});
     }
 
     register(username, password) {
