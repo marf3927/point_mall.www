@@ -19,7 +19,7 @@ class HttpService {
         axios.interceptors.response.use(response => {
             return response;
         }, originalError => {
-            const { config, response } = originalError;
+            const { config } = originalError;
             const originalRequest = config;
             if (originalError.response.status === 401){
                 if (this.authStore.refresh_token == null) {

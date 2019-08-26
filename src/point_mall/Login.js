@@ -16,11 +16,11 @@ class Login extends React.Component {
 
     onInputChanged(event) {
         const target = event.target;
-        if (target.name == 'username') {
+        if (target.name === 'username') {
             this.setState({
                 username : target.value
             });
-        } else if (target.name == 'password') {
+        } else if (target.name === 'password') {
             this.setState({
                 password : target.value
             });
